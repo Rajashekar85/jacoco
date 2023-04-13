@@ -13,7 +13,6 @@ pipeline{
         stage('build') {
             steps {
                 sh 'mvn clean package'
-                sh 'docker build -t rajashekar85/jacoco:$BUILD_NUMBER .'
                }
         }
         stage('jacoco report') {
@@ -33,15 +32,16 @@ pipeline{
                 snykSecurity failOnError: false, failOnIssues: false, projectName: 'jacoco', snykInstallation: 'SYNK', snykTokenId: 'SYNK_Jacoco_Token'
             }
         }
-        stage('push') {
+        stage('Docker image') {
             steps{
+                sh 'docker build -t rajashekar85/jacoco:$BUILD_NUMBER .'
                 sh 'echo $DOCKER_LOGIN_CREDENTIALS_PSW | docker login -u $DOCKER_LOGIN_CREDENTIALS_USR --password-stdin'
                 sh 'docker push rajashekar85/jacoco:$BUILD_NUMBER'
             }
         }
         stage('deploy') {
             steps{
-                sh "docker run -itd -p 8080:8080 rajashekar85/jacoco:$BUILD_NUMBER"
+                sh "docker run -itd -p 80:8080 rajashekar85/jacoco:$BUILD_NUMBER"
             }
         }
     }
