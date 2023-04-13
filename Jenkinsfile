@@ -22,7 +22,7 @@ pipeline{
         }
         stage('SonarQube Analysis Stage') {
             steps{
-                withSonarQubeEnv(sonarqube) {
+                withSonarQubeEnv('sonarqube') {
                  sh "mvn clean verify sonar:sonar -Dsonar.projectKey=palindrome-sonar"
                 }
             }
