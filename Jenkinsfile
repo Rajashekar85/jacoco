@@ -2,6 +2,7 @@ pipeline{
     agent {label 'docker'}
     environment {
 		DOCKER_LOGIN_CREDENTIALS=credentials('Rajashekar85-Dockerhub')
+	        MAVEN_OPTS = '-Dmaven.repo.local=$WORKSPACE/.m2/repository'
 	}
     stages {
         stage('checkout') {
