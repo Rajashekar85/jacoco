@@ -22,9 +22,8 @@ pipeline{
         }
         stage('SonarQube Analysis Stage') {
             steps{
-                def mvn = tool 'Default Maven';
-                withSonarQubeEnv() {
-                 sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=palindrome-sonar"
+                withSonarQubeEnv(sonarqube) {
+                 sh "mvn clean verify sonar:sonar -Dsonar.projectKey=palindrome-sonar"
                 }
             }
         }
