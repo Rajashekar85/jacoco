@@ -2,7 +2,6 @@ pipeline{
     agent {label 'docker'}
     environment {
 		DOCKER_LOGIN_CREDENTIALS=credentials('Rajashekar85-Dockerhub')
-	        MAVEN_OPTS = '-Dmaven.repo.local=$WORKSPACE/.m2/repository'
 	}
     stages {
         stage('checkout') {
@@ -23,7 +22,7 @@ pipeline{
         }
         stage('SonarQube Analysis Stage') {
             steps{
-                withSonarQubeEnv('sonarqube') {
+                withSonarQubeEnv('Jacoco-sonar') {
                  sh "mvn clean verify sonar:sonar -Dsonar.projectKey=palindrome-sonar"
                 }
             }
