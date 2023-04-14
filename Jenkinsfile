@@ -34,14 +34,14 @@ pipeline{
         }
         stage('Docker image') {
             steps{
-                sh 'docker build -t rajashekar85/jacoco:$BUILD_NUMBER .'
+                sh 'docker build -t rajashekar85/palindrome:$BUILD_NUMBER .'
                 sh 'echo $DOCKER_LOGIN_CREDENTIALS_PSW | docker login -u $DOCKER_LOGIN_CREDENTIALS_USR --password-stdin'
-                sh 'docker push rajashekar85/jacoco:$BUILD_NUMBER'
+                sh 'docker push rajashekar85/palindrome:$BUILD_NUMBER'
             }
         }
         stage('deploy') {
             steps{
-                sh "docker run -itd rajashekar85/jacoco:$BUILD_NUMBER"
+                sh "docker run -itd rajashekar85/palindrome:$BUILD_NUMBER"
             }
         }
     }
