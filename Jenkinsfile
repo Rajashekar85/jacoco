@@ -44,6 +44,12 @@ pipeline{
                 sh "docker run -itd rajashekar85/palindrome1:$BUILD_NUMBER"
             }
         }
+        stage('Snyk scanning image') {
+            steps{
+                snykSecurity failOnError: false, failOnIssues: false, projectName: 'jacoco', snykInstallation: 'SYNK', snykTokenId: 'SYNK_Jacoco_Token'
+                snyk container test rajashekar85/palindrome1:$BUILD_NUMBER --file=Dockerfile
+            }
+        
         stage('Cleanup') {
             steps {
                 sh 'rm -rf /home/ubuntu/jenkins/workspace/jacoco/target*'
